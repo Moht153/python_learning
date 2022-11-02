@@ -133,8 +133,11 @@ def do_hist(name):
 	"""
 	message = "H %s" % name
 	s.send(message.encode())  # 发送信息给服务端
-	answer = s.recv(2048).decode()  # 接收服务端查询结果
-	print(answer)
+	while True:
+		answer = s.recv(128).decode()  # 接收服务端查询结果
+		if answer == "##":
+			break
+		print(answer)
 	print("返回上级菜单...")
 
 

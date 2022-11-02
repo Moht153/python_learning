@@ -90,13 +90,8 @@ class DBOperation:
 		sql = "select name,word,time from history where name = %s" \
 			  "order by time desc " \
 			  "limit 10;"
-		self.cur.execute(sql,(name,))
+		self.cur.execute(sql, (name,))
 		re = self.cur.fetchall()
-		re_list = []
-		for item in re:
-			info = "name: %s\tword: %s\ttime: %s" % (item[0], item[1], item[2])
-			re_list.append(info)
-		re = "\n".join(re_list)
 		return re
 
 	@staticmethod

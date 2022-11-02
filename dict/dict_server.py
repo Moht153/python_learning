@@ -9,6 +9,7 @@ import socket
 import multiprocessing
 import signal
 import sys
+import time
 from operation_db import *
 
 # 全局变量
@@ -134,10 +135,12 @@ def do_hist(connfd, data):
 	if not response:
 		connfd.send("该用户还没有查询记录～".encode())
 	else:
-		msg = db.do_hist(name)
-		print(msg)
-		connfd.send(msg.encode())
-
+		for item in response:
+			info = "name: %s\tword: %s\ttime: %s" % item
+			connfd.send(info.encode())
+		# 等待0.5s,确保下面要发的“##”跟上一条记录一块发了，俗称粘包
+		time.sleep(0.1)
+		connfd.send(b'##')
 
 # 搭建网络
 def main():
