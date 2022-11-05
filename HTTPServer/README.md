@@ -54,5 +54,5 @@ project --  |
 ```
 httpserver --> webfram  {method: 'GET', info:'/'}  # method:请求类型， info请求内容
 
-webframe   --> httpserver {statue: '200', data:'cccccc'}  # statue： 响应状态  data： 数据
+webframe   --> httpserver {status: '200', data:'cccccc'}  # statue： 响应状态  data： 数据
 ```
