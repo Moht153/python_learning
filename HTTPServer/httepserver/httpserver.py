@@ -20,6 +20,27 @@ import json
 ADDR = (HOST, PORT)
 
 
+# 和web frame 通信的函数
+def connect_frame(env):
+	frame_addr = (frame_ip, frame_port)
+	s = socket(AF_INET, SOCK_STREAM)
+	try:
+		s.connect(frame_addr)
+	except Exception as e:
+		print(e)
+		sys.exit()
+	else:
+		# 将字典转换为json
+		data = json.dumps(env)
+		# 将解析后的请求发送给webframe
+		print("send to webframe", data)
+		s.send(data.encode())
+		# 接收来自webframe数据
+		data = s.recv(4096 * 100).decode()
+		# print(json.loads(data))
+		return json.loads(data)
+
+
 # 将httpserver的基础功能封装为类
 class HTTPServer:
 	def __init__(self):
@@ -29,7 +50,6 @@ class HTTPServer:
 		self.port = None
 		self.addr = ADDR
 		self.create_socket()  # 和浏览器交互
-		self.connect_socket()  # 和WebFrame交互
 		self.bind()
 
 	# 创建套接字
@@ -42,16 +62,6 @@ class HTTPServer:
 		self.sockfd.bind(self.addr)
 		self.ip = self.addr[0]
 		self.port = self.addr[1]
-
-	# 创建WebFrame交互套接字
-	def connect_socket(self):
-		self.connect_sockfd = socket(AF_INET, SOCK_STREAM)
-		frame_addr = (frame_ip, frame_port)
-		try:
-			self.connect_sockfd.connect(frame_addr)
-		except Exception as e:
-			print(e)
-			sys.exit()
 
 	# 启动服务
 	def serve_forever(self):
@@ -69,28 +79,25 @@ class HTTPServer:
 	def handle(self, connfd):
 		# 获取HTTP请求
 		request = connfd.recv(4096).decode()
-		pattern = r"(?P<method>[A-Z]+)\s+(?P<info>/\w*?)\s+HTTP/1.1"
+		pattern = r"(?P<method>[A-Z]+)\s+(?P<info>/\w*\.?\w*)\s+HTTP/1.1"
 		try:
 			env = re.match(pattern, request).groupdict()
 			print(env)
 		except:
 			# 客户端断开
+			print('re有问题')
 			connfd.close()
 			return
 		else:
-			# 将字典转换为json
-			data = json.dumps(env)
-			# 将解析后的请求发送给webframe
-			print("send", data)
-			self.connect_sockfd.send(data.encode())
-			# 接收来自webframe数据
-			data = self.connect_sockfd.recv(4096).decode()
-			print(json.loads(data))
-			self.response(connfd, json.loads(data))
-			return
+			data = connect_frame(env)
+			# 防止一端突然断开，返回None
+			print(data)
+			if data:
+				self.response(connfd, data)
 
 	# 给浏览器发送数据
-	def response(self, connfd, data):
+	@staticmethod
+	def response(connfd, data):
 		# data => {'status': '200', 'data': 'xxxxxx'}
 		if data['status'] == '200':
 			response_headers = "HTTP/1.1 200 OK\r\n"

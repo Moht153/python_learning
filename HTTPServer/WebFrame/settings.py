@@ -9,4 +9,6 @@ frame_port = 8080
 # [是否调试模式]
 DEBUG = 1
 
+# 网页存放地址
+settings_dir = './static'
 
