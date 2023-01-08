@@ -1,0 +1,29 @@
+div.nav{
+    overflow: hidden;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    width: 600px;
+}
+
+div.nav>div{
+    float: left;
+    width: 118px;
+    height: 30px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+div#tbody>div{
+    float: left;
+    width: 118px;
+    height: 30px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+div#tbody{
+    overflow: hidden;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    width: 600px;
+}
