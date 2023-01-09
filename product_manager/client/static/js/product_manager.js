@@ -75,7 +75,7 @@ $(function(){
                             var _HTML = '';
                             _HTML = '<div class="sheep_id">' + sheeps_list[i].id + '</div>'
                             _HTML += '<div class="sheep_weight">' + sheeps_list[i].weight + '</div>'
-                            _HTML += '<div class="dealTo"><a href="http://192.168.0.114:5000/' +
+                            _HTML += '<div class="dealTo"><a href="/' +
                             blog_username + '/order?cust_name=' + sheeps_list[i].deal_to + '">'
                             _HTML += sheeps_list[i].deal_to + '</a></div>'
                             _HTML += '<div class="price">' + sheeps_list[i].single_price + '</div>'
@@ -136,7 +136,7 @@ $(function(){
 
 
 // 登出模块
-$('#login_out').on('click', function(){
+$('#log_out').on('click', function(){
 
     if(confirm("确定登出吗？")){
         window.localStorage.removeItem('manager_token');

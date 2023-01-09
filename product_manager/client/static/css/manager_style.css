@@ -1,8 +1,10 @@
 div.nav{
     overflow: hidden;
-    margin: 0 auto;
+    margin: -4% auto 0px 9.9%;
     border: 1px solid #ccc;
     width: 720px;
+    position:fixed;
+    z-index: 101;
 }
 
 div.nav>div{
@@ -13,17 +15,31 @@ div.nav>div{
     text-align: center;
 }
 
+div#nav_back{
+    width:100%;
+    height: 85px;
+    position:fixed;
+    background: #fff;
+    top:0;
+    z-index:100;
+}
+
 div#tbody>div{
     float: left;
     width: 118px;
     height: 45px;
     border: 1px solid #ccc;
     text-align: center;
+    line-height: 45px;
+}
+
+div#tbody>div.deal_time{
+    line-height: 22px;
 }
 
 div#tbody{
     overflow: hidden;
-    margin: 0 auto;
+    margin: 10% auto 0px 10%;
     border: 1px solid #ccc;
     width: 720px;
 }
@@ -118,5 +134,7 @@ button#log_out{
 
 div#link{
     position:fixed;
+    top: 1%;
+    z-index: 101;
 
 }
