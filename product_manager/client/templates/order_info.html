@@ -61,9 +61,9 @@
     var blog_username = arrUrl[1].split('/')[1];
 
     if(query_set){
-        var get_url = "http://192.168.0.114:8000/v1/sheeps/"+ blog_username + "/all?" + query_set;
+        var get_url = "http://192.168.0.114:8000/v1/order/"+ blog_username + "/info?" + query_set;
     }else{
-        var get_url = "http://192.168.0.114:8000/v1/sheeps/"+ blog_username + "/all";
+        var get_url = "http://192.168.0.114:8000/v1/order/"+ blog_username + "/info";
 
     }
    
@@ -79,7 +79,8 @@
             // 请求方式
             type:"get",
             // url
-            //url: 'http://127.0.0.1:8000/v1/sheeps/all',
+            
+            //url: http://127.0.0.1:8000/v1/order/Moht153/info?cust_name=fff,
             url: get_url,
             
 
@@ -90,35 +91,34 @@
                 
                 if (200 == result.code){
                     
-                        var sheeps_list = result.data.sheeps
+                        var sheeps_list = result.data
                         console.log(sheeps_list)
                         for(var i=0;i< sheeps_list.length; i++){
                             var _HTML = '';
                             _HTML = '<div class="sheep_id">' + sheeps_list[i].id + '</div>'
                             _HTML += '<div class="sheep_weight">' + sheeps_list[i].weight + '</div>'
-                            _HTML += '<div class="dealTo"><a href="http://192.168.0.114:5000/' +
-                            blog_username + '/order?cust_name=' + sheeps_list[i].deal_to + '">'
-                            _HTML += sheeps_list[i].deal_to + '</a></div>'
+                            _HTML += '<div class="deal_to">' + sheeps_list[i].deal_to + '</div>'
                             _HTML += '<div class="price">' + sheeps_list[i].single_price + '</div>'
                             _HTML += '<div class="total_price">' + sheeps_list[i].total_price + '</div>'
-                            _HTML += '<div class="deal_time">' + sheeps_list[i].deal_time + '</div><br>'
+                            _HTML += '<div class="dela_time">' + sheeps_list[i].deal_time + '</div><br>'
                             $('#tbody').append(_HTML)
                         }
 
                 } else{
-                    alert(result.error)
+                    alert(result.err)
                 }
             }
         });
-        
-        
+
+
 
     })
-    
-    
-  
 
-   
+    
+
+    
+
+
     
 </script>
 </body>

@@ -2,7 +2,7 @@ div.nav{
     overflow: hidden;
     margin: 0 auto;
     border: 1px solid #ccc;
-    width: 600px;
+    width: 720px;
 }
 
 div.nav>div{
@@ -16,7 +16,7 @@ div.nav>div{
 div#tbody>div{
     float: left;
     width: 118px;
-    height: 30px;
+    height: 45px;
     border: 1px solid #ccc;
     text-align: center;
 }
@@ -25,5 +25,88 @@ div#tbody{
     overflow: hidden;
     margin: 0 auto;
     border: 1px solid #ccc;
-    width: 600px;
+    width: 720px;
+}
+
+div.dealTo>a{
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}
+
+div#sheep_info{
+    overflow: hidden;
+    margin: 30% auto 0 auto;
+    border: 0px solid #ccc;
+    width: 75%;
+}
+div#sheep_info>div{
+    float: left;
+    width: 16%;
+    height: 30px;
+    border: 1px solid #ccc;
+    text-align: center;
+    line-height: 190%;
+}
+
+div#price_info{
+
+    margin: 5% auto 0 auto;
+    border: 0px solid #ccc;
+    width: 75%;
+}
+
+div#price_count{
+
+    margin: 5% auto 0 auto;
+    border: 0px solid #ccc;
+    width: 75%;
+}
+
+
+
+div#consumer{
+    position: relative;
+    margin: 5% auto 0 11%;
+    border: 0px solid #ccc;
+    width: 720px;
+    height: 30px;
+}
+
+div#consumer>label.cust_name{
+    position: absolute;
+    top: 10%;
+    left: 1%;
+}
+div#consumer>input#cust_name{
+    position: absolute;
+    top: 15%;
+    left: 10%;
+}
+
+input#confirm{
+    position: absolute;
+    top: 10%;
+    left: 38%;
+}
+
+
+input#back{
+    margin: 5% auto 0 11%;
+
+}
+input#sheep_id{
+    border: none;
+    width: 94%;
+    height: 81%;
+}
+
+input#real_weight{
+    border: none;
+    width: 94%;
+    height: 81%;
+}
+
+button#cashier{
+    cursor: pointer;
 }

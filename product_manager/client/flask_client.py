@@ -11,12 +11,7 @@ from flask import Flask, send_file
 app = Flask(__name__)
 
 
-@app.route('/index')
-def index():
-    #首页
-    return send_file('templates/index.html')
-
-@app.route('/login')
+@app.route('/')
 def login():
     #登录
     return send_file('templates/login.html')
@@ -30,6 +25,12 @@ def register():
 def info(username):
     #个人信息
     return send_file('templates/about.html')
+
+
+@app.route('/<username>/order')
+def order(username):
+    # 个人订单统计
+    return send_file('templates/order_info.html')
 
 @app.route('/<username>/change_info')
 def change_info(username):
@@ -53,10 +54,10 @@ def topics_detail(username, t_id):
     return send_file('templates/detail.html')
 
 
-@app.route('/<username>/photo.html')
-def photo(username):
+@app.route('/<username>/cashier')
+def cashier(username):
     #博客内容详情
-    return send_file('templates/photo.html')
+    return send_file('templates/cashier.html')
 
 
 @app.route('/<username>/sheeps')

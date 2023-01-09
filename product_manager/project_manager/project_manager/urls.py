@@ -22,6 +22,6 @@ urlpatterns = [
     re_path(r'^v1/tokens', include('user_token.urls')),
     re_path(r'^v1/users', include('user.urls')),
     re_path(r'^v1/sheeps', include('sheeps.urls')),
-
+    re_path(r'^v1/order', include('order.urls')),
 ]
 

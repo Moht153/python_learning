@@ -1,0 +1,202 @@
+<!--
+ * @Author: Moht153 1142930377@qq.com
+ * @Date: 2023-01-08 13:47:27
+ * @LastEditors: Moht153 1142930377@qq.com
+ * @LastEditTime: 2023-01-08 16:04:55
+ * @FilePath: /web/project_manager/cashier.html
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>收银管理</title>
+    <link rel="stylesheet" href="/static/css/manager_style.css">
+    <script src="/static/js/jquery.min.js"></script>
+</head>
+<body>
+    <div id="sheep_info">
+        <div class="id">编号</div>
+        <div><input id="sheep_id" type="text"></div>
+        <div>毛重（kg）</div>
+        <div class="weight"></div>
+        <div>实重（kg）</div>
+        <div class="real_weight"><input id="real_weight" type="text"></div>
+    </div>
+    <div id="price_info">
+        <label for="single_price">单价(元/kg)</label>
+        <input type="text" name="single_price" id="single_price" value="120">
+        <input type="radio" name="sel_price" value="0" > 实重
+        <input type="radio" name="sel_price" value="1" checked> 毛重
+    </div>
+    <div id="price_count">
+        <label for="total_price">总价</label>
+        <input type="text" name="" id="total_price">
+    </div>
+
+    <div id="consumer">
+        <label class="cust_name" for="cust_name">消费者：</label>
+        <input type="text" name="cust_name" id="cust_name" value="">
+        <input type="button" value="确定提交" id="confirm">
+        
+    </div>
+    <div>
+        <input type="button" value="返回统计页面" id="back">
+    </div>
+
+    <script>
+        
+        token = window.localStorage.getItem('manager_token');
+        username = window.localStorage.getItem('manager_user');
+        var url = document.location.toString();
+        var query_split = url.split('?');
+        var query_set = '';
+        if(query_split.length > 1){
+            query_set = query_split[1];
+        }
+        var arrUrl = url.split("//");
+        //当前访问的博客博主
+        var blog_username = arrUrl[1].split('/')[1];
+
+        if(query_set){
+            var get_url = "http://192.168.0.114:8000/v1/sheeps/"+ blog_username + "/query?" + query_set;
+        }else{
+            var get_url = "http://192.168.0.114:8000/v1/sheeps/"+ blog_username + "/query";
+
+        }
+        
+        $('input#back').click(function(){
+            window.location =  '/' + blog_username + '/sheeps';
+        })
+        
+       
+        $(function(){
+            
+            $('[name="sel_price"]').change(function() {
+                console.log($('[name="sel_price"]:checked').val())
+                
+                if($('[name="sel_price"]:checked').val() == '1'){
+                    console.log($('input#single_price').val());
+                    console.log($("div#sheep_info>div.weight").text());
+                    var total = parseFloat($('input#single_price').val()) * parseFloat($("div#sheep_info>div.weight").text());
+                    console.log(total);
+                    $('input#total_price').val(total)
+
+                }else if($('[name="sel_price"]:checked').val() == '0'){
+                    console.log($('input#single_price').val());
+                    console.log($("div#sheep_info>div.real_weight").text());
+                    var total = parseFloat($('input#single_price').val()) * parseFloat($("input#real_weight").val());
+                    console.log(total);
+                    $('input#total_price').val(total)
+
+                }
+
+            });
+        })
+
+        $('input#sheep_id').blur(function(){
+            $.ajax({
+            // 请求方式
+            type:"get",
+            // url
+            //url: 'http://127.0.0.1:8000/v1/sheeps/query',
+            url: get_url,
+            data: {
+                id: $("input#sheep_id").val()
+            },
+            dataType: 'json',
+            beforeSend: function(request) {
+                request.setRequestHeader("Authorization", token);
+            },
+            success:function (result) {
+
+                
+                
+                if (200 == result.code){
+
+                    console.log(result.data)
+                    
+                    
+                    $("div#sheep_info>div.weight").text(result.data.weight);
+                    
+                    
+                    $("input#real_weight").val(result.data.real_weight);
+                    
+                    
+                    if($('[name="sel_price"]:checked').val() == '1'){
+
+                        var total = parseFloat($('input#single_price').val()) * parseFloat(result.data.weight);
+                        console.log(total);
+                        $('input#total_price').val(total)
+
+                    }else {
+
+                        var total = parseFloat($('input#single_price').val()) * parseFloat(result.data.real_weight);
+                        console.log(total);
+                        $('input#total_price').val(total)
+
+                    }
+                    
+                    
+
+                } else{
+                    alert(result.error)
+                }
+            }
+
+
+        })
+
+        })
+
+        var post_url = "http://192.168.0.114:8000/v1/sheeps/"+ blog_username + "/consumer";
+
+        $('input#confirm').click(function(){
+
+            // 填充参数
+            var post_data = {
+                id : $('input#sheep_id').val(),
+                single_price: $('input#single_price').val(),
+                total_price: $('input#total_price').val(),
+                consumer: $('input#cust_name').val(),
+                is_real: $('[name="sel_price"]:checked').val(),
+                real_weight: $('input#real_weight').val()
+            };
+            // 提交函数
+            $.ajax({
+            // 请求方式
+            type:"post",
+            // contentType
+            contentType:"application/json",
+            // dataType
+            dataType:"json",
+            // url
+            url: post_url,
+            // 把JS的对象或数组序列化一个json 字符串
+            
+            data:JSON.stringify(post_data),
+            // result 为请求的返回结果对象
+            beforeSend: function(request) {
+                    request.setRequestHeader("Authorization", token);
+                },
+                success:function (result) {
+
+
+                    if (200 == result.code){
+                        alert(result.msg)
+
+                    }else{
+                        alert(result.error)
+                    }
+                }
+            });
+
+        })
+
+    
+    </script>
+
+</body>
+</html>
