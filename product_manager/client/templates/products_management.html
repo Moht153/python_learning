@@ -1,11 +1,3 @@
-<!--
- * @Author: Moht153
- * @Date: 2023-01-07 22:50:02
- * @LastEditors: Moht153 1142930377@qq.com
- * @LastEditTime: 2023-01-08 18:45:14
- * @FilePath: /web/project_manager/products_management.html
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +11,7 @@
 <body>
     <div id="link">
         <button id="cashier">收银管理</button>
-        <button id="login_out">退出</button>
+        <button id="log_out">退出</button>
     </div>
     <div class="nav">
         <div>编号</div>
@@ -29,97 +21,8 @@
         <div>总价</div>
         <div>日期</div>
     </div>
-    <div id="tbody">
+    <div id="tbody"></div>
     
-    </div>
-   
-
-<script>
-
-    $('#login_out').on('click', function(){
-
-            if(confirm("确定登出吗？")){
-                window.localStorage.removeItem('manager_token');
-                window.localStorage.removeItem('manager_user');
-                window.location.href= '/';
-            }
-        }
-    )
-  
- 
-
-    token = window.localStorage.getItem('manager_token');
-    username = window.localStorage.getItem('manager_user');
-    var url = document.location.toString();
-    var query_split = url.split('?');
-    var query_set = '';
-    if(query_split.length > 1){
-        query_set = query_split[1];
-    }
-    var arrUrl = url.split("//");
-    //当前访问的博客博主
-    var blog_username = arrUrl[1].split('/')[1];
-
-    if(query_set){
-        var get_url = "http://192.168.0.114:8000/v1/sheeps/"+ blog_username + "/all?" + query_set;
-    }else{
-        var get_url = "http://192.168.0.114:8000/v1/sheeps/"+ blog_username + "/all";
-
-    }
-   
-   
-    $('button#cashier').click(function(){
-        window.location =  '/' + blog_username + '/cashier';
-    })
-
-    $(function(){
-        
-
-        $.ajax({
-            // 请求方式
-            type:"get",
-            // url
-            //url: 'http://127.0.0.1:8000/v1/sheeps/all',
-            url: get_url,
-            
-
-            beforeSend: function(request) {
-                request.setRequestHeader("Authorization", token);
-            },
-            success:function (result) {
-                
-                if (200 == result.code){
-                    
-                        var sheeps_list = result.data.sheeps
-                        console.log(sheeps_list)
-                        for(var i=0;i< sheeps_list.length; i++){
-                            var _HTML = '';
-                            _HTML = '<div class="sheep_id">' + sheeps_list[i].id + '</div>'
-                            _HTML += '<div class="sheep_weight">' + sheeps_list[i].weight + '</div>'
-                            _HTML += '<div class="dealTo"><a href="http://192.168.0.114:5000/' +
-                            blog_username + '/order?cust_name=' + sheeps_list[i].deal_to + '">'
-                            _HTML += sheeps_list[i].deal_to + '</a></div>'
-                            _HTML += '<div class="price">' + sheeps_list[i].single_price + '</div>'
-                            _HTML += '<div class="total_price">' + sheeps_list[i].total_price + '</div>'
-                            _HTML += '<div class="deal_time">' + sheeps_list[i].deal_time + '</div><br>'
-                            $('#tbody').append(_HTML)
-                        }
-
-                } else{
-                    alert(result.error)
-                }
-            }
-        });
-        
-        
-
-    })
-    
-    
-  
-
-   
-    
-</script>
+<script src="/static/js/product_manager.js"></script>
 </body>
 </html>

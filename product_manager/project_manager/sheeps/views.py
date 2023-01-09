@@ -7,35 +7,72 @@ from tools import login_check
 # Create your views here.
 
 
-@login_check.login_check('GET')
+# @login_check.login_check('GET')
 def get_sheeps(request, username):
 	if request.method == 'GET':
+		start = request.GET.get('start')
+		end = request.GET.get('end')
+		print(start, end)
 
-		sheeps = Sheep.objects.all()
-		list_sheep = []
-		for sheep in sheeps:
-			dict_sheep = {
-				'id': sheep.id,
-				'weight': sheep.weight,
-				'deal_to': sheep.customer,
-				'single_price': sheep.single_price,
-				'total_price': sheep.total_price,
-			}
-			if sheep.deal_date:
-				dict_sheep['deal_time'] = sheep.deal_date.strftime('%Y-%m-%d %H:%M:%S')
-			else:
-				dict_sheep['deal_time'] = None
-			list_sheep.append(dict_sheep)
-
-
-		result = {
-			'code': 200,
-			'data': {
-				'sheeps': list_sheep
-			}
-
-		}
+		result = get_sheep(start, end)
 		return JsonResponse(result)
+		# sheeps = Sheep.objects.all()
+		# list_sheep = []
+		# for sheep in sheeps:
+		# 	dict_sheep = {
+		# 		'id': sheep.id,
+		# 		'weight': sheep.weight,
+		# 		'deal_to': sheep.customer,
+		# 		'single_price': sheep.single_price,
+		# 		'total_price': sheep.total_price,
+		# 	}
+		# 	if sheep.deal_date:
+		# 		dict_sheep['deal_time'] = sheep.deal_date.strftime('%Y-%m-%d %H:%M:%S')
+		# 	else:
+		# 		dict_sheep['deal_time'] = None
+		# 	list_sheep.append(dict_sheep)
+		#
+		#
+		# result = {
+		# 	'code': 200,
+		# 	'data': {
+		# 		'sheeps': list_sheep
+		# 	}
+		#
+		# }
+		# return JsonResponse(result)
+
+
+def get_sheep(start, end):
+	sheeps = Sheep.objects.filter(id__gt=int(start) - 1, id__lt=end)
+	if not sheeps:
+		result = {
+			'code': 205,
+			'error': '到头啦！'
+		}
+		return result
+	list_sheep = []
+	for sheep in sheeps:
+		dict_sheep = {
+			'id': sheep.id,
+			'weight': sheep.weight,
+			'deal_to': sheep.customer,
+			'single_price': sheep.single_price,
+			'total_price': sheep.total_price,
+		}
+		if sheep.deal_date:
+			dict_sheep['deal_time'] = sheep.deal_date.strftime('%Y-%m-%d %H:%M:%S')
+		else:
+			dict_sheep['deal_time'] = None
+		list_sheep.append(dict_sheep)
+	result = {
+		'code': 200,
+		'data': {
+			'sheeps': list_sheep,
+			'end': end
+		}
+	}
+	return result
 
 
 @login_check.login_check('GET')

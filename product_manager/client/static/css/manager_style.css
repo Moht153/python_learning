@@ -110,3 +110,13 @@ input#real_weight{
 button#cashier{
     cursor: pointer;
 }
+
+
+button#log_out{
+    cursor: pointer;
+}
+
+div#link{
+    position:fixed;
+
+}

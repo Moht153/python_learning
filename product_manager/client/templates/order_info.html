@@ -19,7 +19,9 @@
 <body>
     <div id="link">
         <button id="cashier">收银管理</button>
+        <button id="home">返回首页</button>
         <button id="login_out">退出</button>
+        
     </div>
     <div class="nav">
         <div>编号</div>
@@ -72,6 +74,10 @@
         window.location =  '/' + blog_username + '/cashier';
     })
 
+    $('button#home').click(function(){
+        window.location =  '/' + blog_username + '/sheeps';
+    })
+
     $(function(){
         
 
@@ -91,35 +97,26 @@
                 
                 if (200 == result.code){
                     
-                        var sheeps_list = result.data
-                        console.log(sheeps_list)
-                        for(var i=0;i< sheeps_list.length; i++){
-                            var _HTML = '';
-                            _HTML = '<div class="sheep_id">' + sheeps_list[i].id + '</div>'
-                            _HTML += '<div class="sheep_weight">' + sheeps_list[i].weight + '</div>'
-                            _HTML += '<div class="deal_to">' + sheeps_list[i].deal_to + '</div>'
-                            _HTML += '<div class="price">' + sheeps_list[i].single_price + '</div>'
-                            _HTML += '<div class="total_price">' + sheeps_list[i].total_price + '</div>'
-                            _HTML += '<div class="dela_time">' + sheeps_list[i].deal_time + '</div><br>'
-                            $('#tbody').append(_HTML)
-                        }
+                    var sheeps_list = result.data
+                    console.log(sheeps_list)
+                    for(var i=0;i< sheeps_list.length; i++){
+                        var _HTML = '';
+                        _HTML = '<div class="sheep_id">' + sheeps_list[i].id + '</div>'
+                        _HTML += '<div class="sheep_weight">' + sheeps_list[i].weight + '</div>'
+                        _HTML += '<div class="deal_to">' + sheeps_list[i].deal_to + '</div>'
+                        _HTML += '<div class="price">' + sheeps_list[i].single_price + '</div>'
+                        _HTML += '<div class="total_price">' + sheeps_list[i].total_price + '</div>'
+                        _HTML += '<div class="dela_time">' + sheeps_list[i].deal_time + '</div><br>'
+                        $('#tbody').append(_HTML)
+                    }
 
                 } else{
                     alert(result.err)
                 }
             }
         });
-
-
-
     })
-
-    
-
-    
-
-
-    
+  
 </script>
 </body>
 </html>
