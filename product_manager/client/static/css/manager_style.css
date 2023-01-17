@@ -1,6 +1,7 @@
 div.nav{
     overflow: hidden;
-    margin: -4% auto 0px 9.9%;
+    margin: auto auto 0px 9.9%;
+    top: 5%;
     border: 1px solid #ccc;
     width: 720px;
     position:fixed;
@@ -13,6 +14,7 @@ div.nav>div{
     height: 30px;
     border: 1px solid #ccc;
     text-align: center;
+    background: #fff;
 }
 
 div#nav_back{
@@ -33,13 +35,9 @@ div#tbody>div{
     line-height: 45px;
 }
 
-div#tbody>div.deal_time{
-    line-height: 22px;
-}
-
 div#tbody{
     overflow: hidden;
-    margin: 10% auto 0px 10%;
+    margin: 6% auto 0px 10%;
     border: 1px solid #ccc;
     width: 720px;
 }
@@ -48,11 +46,16 @@ div.dealTo>a{
     text-decoration: none;
     color: black;
     cursor: pointer;
+    font-size: small;
+}
+
+div#tbody>div.deal_to{
+    font-size: small;
 }
 
 div#sheep_info{
     overflow: hidden;
-    margin: 30% auto 0 auto;
+    margin: 15% auto 0 auto;
     border: 0px solid #ccc;
     width: 75%;
 }

@@ -23,7 +23,9 @@
         <button id="login_out">退出</button>
         
     </div>
+    <div id="nav_back"></div>
     <div class="nav">
+        
         <div>编号</div>
         <div>重量</div>
         <div>购买人</div>
@@ -106,7 +108,10 @@
                         _HTML += '<div class="deal_to">' + sheeps_list[i].deal_to + '</div>'
                         _HTML += '<div class="price">' + sheeps_list[i].single_price + '</div>'
                         _HTML += '<div class="total_price">' + sheeps_list[i].total_price + '</div>'
-                        _HTML += '<div class="dela_time">' + sheeps_list[i].deal_time + '</div><br>'
+                        
+                        
+                        
+                        _HTML += '<div class="deal_time">' + sheeps_list[i].deal_time + '</div><br>'
                         $('#tbody').append(_HTML)
                     }
 

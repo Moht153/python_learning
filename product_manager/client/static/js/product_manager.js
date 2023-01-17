@@ -123,7 +123,7 @@ $(function(){
                     isTrue=false;
                     setTimeout(function(){
                         isTrue=true;
-                    },2000)
+                    },200)
                     ajaxGet();
                 }
             }

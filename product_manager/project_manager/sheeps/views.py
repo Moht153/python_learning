@@ -7,7 +7,7 @@ from tools import login_check
 # Create your views here.
 
 
-# @login_check.login_check('GET')
+@login_check.login_check('GET')
 def get_sheeps(request, username):
 	if request.method == 'GET':
 		start = request.GET.get('start')
@@ -53,15 +53,27 @@ def get_sheep(start, end):
 		return result
 	list_sheep = []
 	for sheep in sheeps:
-		dict_sheep = {
-			'id': sheep.id,
-			'weight': sheep.weight,
-			'deal_to': sheep.customer,
-			'single_price': sheep.single_price,
-			'total_price': sheep.total_price,
-		}
+		if sheep.memo == '净重计算':
+			dict_sheep = {
+				'id': sheep.id,
+				'weight': sheep.real_weight,
+				'deal_to': sheep.customer,
+				'single_price': sheep.single_price,
+				'total_price': '{:.2f}'.format(float(sheep.total_price)),
+			}
+		else:
+			dict_sheep = {
+				'id': sheep.id,
+				'weight': sheep.weight,
+				'deal_to': sheep.customer,
+				'single_price': sheep.single_price,
+			}
+		if sheep.total_price:
+			dict_sheep['total_price'] = '{:.2f}'.format(float(sheep.total_price)),
+		else:
+			dict_sheep['total_price'] = None
 		if sheep.deal_date:
-			dict_sheep['deal_time'] = sheep.deal_date.strftime('%Y-%m-%d %H:%M:%S')
+			dict_sheep['deal_time'] = sheep.deal_date.strftime('%Y-%m-%d')
 		else:
 			dict_sheep['deal_time'] = None
 		list_sheep.append(dict_sheep)

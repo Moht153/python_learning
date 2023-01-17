@@ -22,10 +22,10 @@ def order_info(request, username):
 					'weight': sheep.weight,
 					'deal_to': sheep.customer,
 					'single_price': sheep.single_price,
-					'total_price': sheep.total_price,
+					'total_price': '%.2f' % sheep.total_price,
 				}
 				if sheep.deal_date:
-					dict_sheep['deal_time'] = sheep.deal_date.strftime('%Y-%m-%d %H:%M:%S')
+					dict_sheep['deal_time'] = sheep.deal_date.strftime('%Y-%m-%d')
 				else:
 					dict_sheep['deal_time'] = None
 				result_list.append(dict_sheep)
